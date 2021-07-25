@@ -13,7 +13,9 @@
     "baseUrl": ".",
     "paths": {
       "@api/*": ["./src/api/*"],
-      "@database/*": ["./src/database/*"]
+      "@database/*": ["./src/database/*"],
+      "@errors/*": ["./src/errors/*"],
+      "@services/*": ["./src/services/*"]
     }
   },
   "include": ["src/**/*", "tests/**/*"]
