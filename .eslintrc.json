@@ -21,7 +21,7 @@
   },
   "plugins": ["@typescript-eslint", "prettier", "import-helpers"],
   "rules": {
-    "prettier/prettier": ["error", { "printWidth": 120 }],
+    "prettier/prettier": ["error", { "printWidth": 100 }],
     "space-before-function-paren": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "import-helpers/order-imports": [
