@@ -3,7 +3,7 @@ import { Hasher } from '@services/cryptography/hasher'
 export const makeHasher = (): Hasher => {
   class HasherStub implements Partial<Hasher> {
     async hash(): Promise<string> {
-      return 'hashed_value'
+      return 'hashed-value'
     }
 
     async compare(): Promise<boolean> {

@@ -14,7 +14,7 @@
     "paths": {
       "@api/*": ["./src/api/*"],
       "@database/*": ["./src/database/*"],
-      "@errors/*": ["./src/errors/*"],
+      "@errors": ["./src/errors/index.ts"],
       "@services/*": ["./src/services/*"]
     }
   },

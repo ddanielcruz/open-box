@@ -1,5 +1,5 @@
 import { UsersRepository } from '@database/repositories'
-import { NotFoundError } from '@errors/not-found-error'
+import { NotFoundError } from '@errors'
 
 export class FindUser {
   constructor(private readonly usersRepository: UsersRepository) {}
