@@ -5,8 +5,20 @@ import { makeUser } from '../factories'
 
 export const makeUsersRepository = (): UsersRepository => {
   class UsersRepositoryStub implements UsersRepository {
+    async create(user: User): Promise<User> {
+      return user
+    }
+
+    async findByEmail(): Promise<User> {
+      return null
+    }
+
     async findById(id: string): Promise<User> {
       return makeUser({ id })
+    }
+
+    async update(user: User): Promise<User> {
+      return user
     }
   }
 
