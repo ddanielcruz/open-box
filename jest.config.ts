@@ -18,6 +18,7 @@ export default {
   preset: 'ts-jest',
   modulePathIgnorePatterns: [
     '<rootDir>/dist/',
+    '<rootDir>/src/errors/index.ts',
     '<rootDir>/src/database/repositories/index.ts',
     '<rootDir>/tests/mocks/'
   ]
