@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { config } from 'dotenv'
 import { resolve } from 'path'
 

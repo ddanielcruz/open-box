@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import { inject, singleton } from 'tsyringe'
 
 import { UserCreate, UsersRepository } from '@database/repositories'
 import { FieldError, ValidationError } from '@errors'
@@ -10,8 +11,13 @@ const validator = Joi.object<UserCreate>().keys({
   password: Joi.string().trim().required()
 })
 
+@singleton()
 export class CreateUser {
-  constructor(private readonly usersRepository: UsersRepository, private readonly hasher: Hasher) {}
+  constructor(
+    @inject('UsersRepository')
+    private readonly usersRepository: UsersRepository,
+    private readonly hasher: Hasher
+  ) {}
 
   async execute(payload: UserCreate): Promise<User> {
     const sanitizedPayload = await this.validate(payload)

@@ -1,8 +1,11 @@
+import 'reflect-metadata'
 import 'dotenv/config'
+
 import express from 'express'
 import helmet from 'helmet'
 import 'express-async-errors'
 
+import '@config/container'
 import { logger } from './middleware'
 import { routes } from './routes'
 

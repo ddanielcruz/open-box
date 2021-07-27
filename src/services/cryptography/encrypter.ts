@@ -1,9 +1,14 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken'
+import { inject, singleton } from 'tsyringe'
 
 import { InvalidTokenError } from '@errors'
 
+@singleton()
 export class Encrypter {
-  constructor(private readonly secret: string) {}
+  constructor(
+    @inject('ENCRYPTER_SECRET')
+    private readonly secret: string
+  ) {}
 
   decrypt<T = any>(value: string): Promise<T> {
     return new Promise((resolve, reject) => {

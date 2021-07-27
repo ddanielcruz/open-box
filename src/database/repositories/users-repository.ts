@@ -1,3 +1,5 @@
+import { inject } from 'tsyringe'
+
 import { PrismaClient, User } from '@prisma/client'
 
 export interface UserCreate {
@@ -17,7 +19,10 @@ export interface UsersRepository {
 }
 
 export class UsersRepositoryImpl implements UsersRepository {
-  constructor(private readonly client: PrismaClient) {}
+  constructor(
+    @inject('PrismaClient')
+    private readonly client: PrismaClient
+  ) {}
 
   async create({ email, password }: UserCreate): Promise<User> {
     return await this.client.user.create({ data: { email, password } })

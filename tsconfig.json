@@ -13,6 +13,7 @@
     "baseUrl": ".",
     "paths": {
       "@api/*": ["./src/api/*"],
+      "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],
       "@errors": ["./src/errors/index.ts"],
       "@services/*": ["./src/services/*"]
