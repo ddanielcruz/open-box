@@ -1,4 +1,4 @@
-import { inject } from 'tsyringe'
+import { inject, injectable } from 'tsyringe'
 
 import { PrismaClient, User } from '@prisma/client'
 
@@ -18,6 +18,7 @@ export interface UsersRepository {
   update(user: UserUpdate): Promise<User>
 }
 
+@injectable()
 export class UsersRepositoryImpl implements UsersRepository {
   constructor(
     @inject('PrismaClient')
