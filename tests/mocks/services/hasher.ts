@@ -11,5 +11,5 @@ export const makeHasher = (): Hasher => {
     }
   }
 
-  return new HasherStub() as any as Hasher
+  return new HasherStub() as any
 }
