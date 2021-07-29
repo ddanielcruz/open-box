@@ -1,6 +1,7 @@
 import { container } from 'tsyringe'
 
 import { client } from '@database/client'
+import { PostsRepository, PostsRepositoryImpl } from '@database/repositories/posts-repository'
 import { UsersRepository, UsersRepositoryImpl } from '@database/repositories/users-repository'
 import { PrismaClient } from '@prisma/client'
 
@@ -12,4 +13,5 @@ container.registerInstance('ENCRYPTER_SECRET', process.env.ENCRYPTER_SECRET)
 container.registerInstance<PrismaClient>('PrismaClient', client)
 
 // Repositories
+container.registerSingleton<PostsRepository>('PostsRepository', PostsRepositoryImpl)
 container.registerSingleton<UsersRepository>('UsersRepository', UsersRepositoryImpl)
