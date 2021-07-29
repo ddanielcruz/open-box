@@ -24,7 +24,7 @@ model Post {
   name String
   key String
   url String
-  public Boolean @default(false)
+  closed Boolean @default(true)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   user User @relation(fields: [userId], references: [id])

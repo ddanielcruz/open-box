@@ -20,7 +20,7 @@ export const makePost = (replacement: PostFactory): Post => ({
   key: faker.lorem.words(),
   name: faker.lorem.words(),
   url: faker.lorem.words(),
-  public: true,
+  closed: false,
   createdAt: new Date(),
   updatedAt: new Date(),
   ...replacement

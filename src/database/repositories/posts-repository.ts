@@ -7,18 +7,22 @@ export interface PostCreate {
   name: string
   key: string
   url: string
-  isPublic: boolean
+  closed: boolean
 }
 
 export interface PostUpdate {
   id: string
-  isPublic: boolean
+  closed: boolean
+}
+
+export interface PostFindManyOptions {
+  publicOnly?: boolean
 }
 
 export interface PostsRepository {
   create(post: PostCreate): Promise<Post>
   findById(id: string): Promise<Post>
-  findManyFromUser(userId: string, publicOnly: boolean): Promise<Post[]>
+  findManyFromUser(userId: string, options?: PostFindManyOptions): Promise<Post[]>
   update(post: PostUpdate): Promise<Post>
 }
 
@@ -29,23 +33,24 @@ export class PostsRepositoryImpl implements PostsRepository {
     private readonly client: PrismaClient
   ) {}
 
-  async create({ userId, key, name, url, isPublic }: PostCreate): Promise<Post> {
-    return await this.client.post.create({ data: { userId, key, name, url, public: isPublic } })
+  async create({ userId, key, name, url, closed }: PostCreate): Promise<Post> {
+    return await this.client.post.create({ data: { userId, key, name, url, closed } })
   }
 
   async findById(id: string): Promise<Post> {
     return await this.client.post.findUnique({ where: { id } })
   }
 
-  async findManyFromUser(userId: string, publicOnly: boolean): Promise<Post[]> {
+  async findManyFromUser(userId: string, options?: PostFindManyOptions): Promise<Post[]> {
+    const { publicOnly = true } = options || {}
     return await this.client.post.findMany({
-      where: { userId, public: publicOnly ? true : undefined }
+      where: { userId, closed: publicOnly ? false : undefined }
     })
   }
 
-  async update({ id, isPublic }: PostUpdate): Promise<Post> {
+  async update({ id, closed }: PostUpdate): Promise<Post> {
     return await this.client.post.update({
-      data: { public: isPublic },
+      data: { closed },
       where: { id }
     })
   }

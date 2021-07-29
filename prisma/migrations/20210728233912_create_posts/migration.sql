@@ -5,7 +5,7 @@ CREATE TABLE "posts" (
     "name" TEXT NOT NULL,
     "key" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "public" BOOLEAN NOT NULL DEFAULT false,
+    "closed" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 

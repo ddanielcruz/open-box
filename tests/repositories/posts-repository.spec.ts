@@ -41,7 +41,7 @@ describe('PostsRepository', () => {
   test('should create post', async () => {
     const { sut } = makeSut()
     const { user } = await makeResources()
-    const createdPost = await sut.create({ ...makePost({ userId: user.id }), isPublic: true })
+    const createdPost = await sut.create({ ...makePost({ userId: user.id }), closed: false })
     const postsCount = await client.post.count()
     expect(createdPost).toBeTruthy()
     expect(postsCount).toBe(2)
@@ -50,24 +50,40 @@ describe('PostsRepository', () => {
   test('should update public flag', async () => {
     const { sut } = makeSut()
     const { post } = await makeResources()
-    post.public = !post.public
-    const updatedPost = await sut.update({ ...post, isPublic: post.public })
+    post.closed = !post.closed
+    const updatedPost = await sut.update(post)
     expect(updatedPost).toEqual({ ...post, updatedAt: expect.any(Date) })
   })
 
-  test('should find all posts of the user', async () => {
+  test('should find all posts of the user when option is populated with FALSE', async () => {
     const { sut } = makeSut()
-    const { user } = await makeResources()
-    await client.post.create({ data: makePost({ userId: user.id, public: false }) })
-    const posts = await sut.findManyFromUser(user.id, false)
+    const { user, post: publicPost } = await makeResources()
+    const closedPost = await client.post.create({
+      data: makePost({ userId: user.id, closed: true })
+    })
+    const posts = await sut.findManyFromUser(user.id, { publicOnly: false })
     expect(posts.length).toBe(2)
+
+    for (const post of posts) {
+      expect(post).toEqual(post.closed ? closedPost : publicPost)
+    }
   })
 
-  test('should find only public posts of the user', async () => {
+  test('should find only public posts of the user when option is populated with TRUE', async () => {
     const { sut } = makeSut()
-    const { user } = await makeResources()
-    await client.post.create({ data: makePost({ userId: user.id, public: false }) })
-    const posts = await sut.findManyFromUser(user.id, true)
+    const { user, post: publicPost } = await makeResources()
+    await client.post.create({ data: makePost({ userId: user.id, closed: true }) })
+    const posts = await sut.findManyFromUser(user.id, { publicOnly: true })
     expect(posts.length).toBe(1)
+    expect(posts[0]).toEqual(publicPost)
+  })
+
+  test('should find only public posts of the user when option is not populated', async () => {
+    const { sut } = makeSut()
+    const { user, post: publicPost } = await makeResources()
+    await client.post.create({ data: makePost({ userId: user.id, closed: true }) })
+    const posts = await sut.findManyFromUser(user.id)
+    expect(posts.length).toBe(1)
+    expect(posts[0]).toEqual(publicPost)
   })
 })
