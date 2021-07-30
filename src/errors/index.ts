@@ -1,4 +1,5 @@
 export * from './app-error'
+export * from './forbidden-error'
 export * from './invalid-token-error'
 export * from './not-found-error'
 export * from './unauthorized-error'
