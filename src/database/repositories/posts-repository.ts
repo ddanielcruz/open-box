@@ -44,7 +44,8 @@ export class PostsRepositoryImpl implements PostsRepository {
   async findManyFromUser(userId: string, options?: PostFindManyOptions): Promise<Post[]> {
     const { publicOnly = true } = options || {}
     return await this.client.post.findMany({
-      where: { userId, closed: publicOnly ? false : undefined }
+      where: { userId, closed: publicOnly ? false : undefined },
+      orderBy: { createdAt: 'desc' }
     })
   }
 
