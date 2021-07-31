@@ -86,4 +86,13 @@ describe('PostsRepository', () => {
     expect(posts.length).toBe(1)
     expect(posts[0]).toEqual(publicPost)
   })
+
+  test('should delete post', async () => {
+    const { sut } = makeSut()
+    const { post } = await makeResources()
+    const deletedPost = await sut.delete(post.id)
+    const postsCount = await client.post.count()
+    expect(postsCount).toBe(0)
+    expect(deletedPost).toEqual(post)
+  })
 })

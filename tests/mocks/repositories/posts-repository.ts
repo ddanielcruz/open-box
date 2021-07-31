@@ -14,6 +14,10 @@ export const makePostsRepository = (): PostsRepository => {
       return makePost(post)
     }
 
+    async delete(id: string): Promise<Post> {
+      return makePost({ id, userId: 'any-id' })
+    }
+
     async findById(id: string): Promise<Post> {
       return makePost({ id, userId: 'any-id' })
     }

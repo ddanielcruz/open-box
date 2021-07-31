@@ -21,6 +21,7 @@ export interface PostFindManyOptions {
 
 export interface PostsRepository {
   create(post: PostCreate): Promise<Post>
+  delete(id: string): Promise<Post>
   findById(id: string): Promise<Post>
   findManyFromUser(userId: string, options?: PostFindManyOptions): Promise<Post[]>
   update(post: PostUpdate): Promise<Post>
@@ -35,6 +36,10 @@ export class PostsRepositoryImpl implements PostsRepository {
 
   async create({ userId, key, name, url, closed }: PostCreate): Promise<Post> {
     return await this.client.post.create({ data: { userId, key, name, url, closed } })
+  }
+
+  async delete(id: string): Promise<Post> {
+    return await this.client.post.delete({ where: { id } })
   }
 
   async findById(id: string): Promise<Post> {
