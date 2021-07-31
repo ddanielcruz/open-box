@@ -1,5 +1,7 @@
+import aws from 'aws-sdk'
 import crypto from 'crypto'
 import multer from 'multer'
+import multerS3 from 'multer-s3'
 import path from 'path'
 
 const storageTypes = {
@@ -17,6 +19,24 @@ const storageTypes = {
           file.key = `${hash.toString('hex')}-${file.originalname.replace(' ', '_')}`
           file.location = `${process.env.APP_URL}/files/${file.key}`
           callback(null, file.key)
+        })
+      }
+    })
+  },
+  s3: {
+    storage: multerS3({
+      s3: new aws.S3(),
+      bucket: process.env.AWS_BUCKET_NAME,
+      contentType: multerS3.AUTO_CONTENT_TYPE,
+      acl: 'public-read',
+      key: (_request, file, callback) => {
+        crypto.randomBytes(8, (error, hash) => {
+          if (error) {
+            return callback(error, '')
+          }
+
+          const filename = `${hash.toString('hex')}-${file.originalname.replace(' ', '_')}`
+          callback(null, filename)
         })
       }
     })

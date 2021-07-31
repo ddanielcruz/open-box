@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@prisma/client": "2.27.0",
+    "aws-sdk": "^2.958.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -26,10 +27,12 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/faker": "^5.5.7",
@@ -37,6 +40,7 @@
     "@types/jsonwebtoken": "^8.5.4",
     "@types/morgan": "^1.9.3",
     "@types/multer": "^1.4.7",
+    "@types/multer-s3": "^2.7.10",
     "@types/node": "^16.4.2",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
