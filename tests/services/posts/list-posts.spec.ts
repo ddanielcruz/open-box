@@ -1,6 +1,6 @@
 import faker from 'faker'
 
-import { FindPosts, FindPostsPayload } from '@services/posts/find-posts'
+import { ListPosts, ListPostsPayload } from '@services/posts/list-posts'
 
 import { makePostsRepository } from '../../mocks/repositories'
 
@@ -8,18 +8,18 @@ const FAKE_ID = faker.datatype.uuid()
 
 const makeSut = () => {
   const postsRepositoryStub = makePostsRepository()
-  const sut = new FindPosts(postsRepositoryStub)
+  const sut = new ListPosts(postsRepositoryStub)
 
   return { sut, postsRepositoryStub }
 }
 
-const makePayload = (replacement?: Partial<FindPostsPayload>): FindPostsPayload => ({
+const makePayload = (replacement?: Partial<ListPostsPayload>): ListPostsPayload => ({
   ownerId: faker.datatype.uuid(),
   authenticatedId: faker.datatype.uuid(),
   ...replacement
 })
 
-describe('FindPosts', () => {
+describe('ListPosts', () => {
   test.each([
     [{ ownerId: null }],
     [{ ownerId: '' }],
