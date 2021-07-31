@@ -3,6 +3,7 @@ import { container } from 'tsyringe'
 
 import { CreatePost } from '@services/posts/create-post'
 import { ListPosts } from '@services/posts/list-posts'
+import { RemovePost } from '@services/posts/remove-post'
 import { UpdatePost } from '@services/posts/update-post'
 
 import * as views from '../views/posts-views'
@@ -39,4 +40,14 @@ export async function update(request: Request, response: Response) {
   })
 
   return response.json(views.single(post))
+}
+
+export async function remove(request: Request, response: Response) {
+  const service = container.resolve(RemovePost)
+  await service.execute({
+    postId: request.params.id,
+    userId: request.session.id
+  })
+
+  return response.status(204).json()
 }

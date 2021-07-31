@@ -9,5 +9,6 @@ const routes = Router()
 routes.get('/', auth({ required: false }), controller.index)
 routes.post('/', auth(), singleImage(), controller.create)
 routes.put('/:id', auth(), controller.update)
+routes.delete('/:id', auth(), controller.remove)
 
 export default routes
