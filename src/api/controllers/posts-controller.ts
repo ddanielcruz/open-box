@@ -10,7 +10,7 @@ import * as views from '../views/posts-views'
 export async function index(request: Request, response: Response) {
   const service = container.resolve(ListPosts)
   const posts = await service.execute({
-    ownerId: request.query.userId?.toString(),
+    userId: request.query.userId?.toString(),
     authenticatedId: request.session?.id
   })
 

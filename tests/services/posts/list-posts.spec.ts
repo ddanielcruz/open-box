@@ -14,16 +14,16 @@ const makeSut = () => {
 }
 
 const makePayload = (replacement?: Partial<ListPostsPayload>): ListPostsPayload => ({
-  ownerId: faker.datatype.uuid(),
+  userId: faker.datatype.uuid(),
   authenticatedId: faker.datatype.uuid(),
   ...replacement
 })
 
 describe('ListPosts', () => {
   test.each([
-    [{ ownerId: null }],
-    [{ ownerId: '' }],
-    [{ ownerId: 'invalid-id' }],
+    [{ userId: null }],
+    [{ userId: '' }],
+    [{ userId: 'invalid-id' }],
     [{ authenticatedId: 'invalid-id' }]
   ])('should throw when validation fails: %s', async properties => {
     const { sut } = makeSut()
@@ -36,15 +36,15 @@ describe('ListPosts', () => {
     const findManyFromUserSpy = jest.spyOn(postsRepositoryStub, 'findManyFromUser')
     const payload = makePayload()
     await sut.execute(payload)
-    expect(findManyFromUserSpy).toHaveBeenCalledWith(payload.ownerId, {
-      publicOnly: payload.ownerId !== payload.authenticatedId
+    expect(findManyFromUserSpy).toHaveBeenCalledWith(payload.userId, {
+      publicOnly: payload.userId !== payload.authenticatedId
     })
   })
 
   test('should find all posts when owner ID is the same as the authenticated', async () => {
     const { sut, postsRepositoryStub } = makeSut()
     const findManyFromUserSpy = jest.spyOn(postsRepositoryStub, 'findManyFromUser')
-    const posts = await sut.execute(makePayload({ ownerId: FAKE_ID, authenticatedId: FAKE_ID }))
+    const posts = await sut.execute(makePayload({ userId: FAKE_ID, authenticatedId: FAKE_ID }))
     expect(findManyFromUserSpy).toHaveBeenCalledWith(FAKE_ID, { publicOnly: false })
     expect(posts.length).toBe(2)
   })
@@ -56,7 +56,7 @@ describe('ListPosts', () => {
       const findManyFromUserSpy = jest.spyOn(postsRepositoryStub, 'findManyFromUser')
       const payload = makePayload({ authenticatedId })
       const posts = await sut.execute(payload)
-      expect(findManyFromUserSpy).toHaveBeenCalledWith(payload.ownerId, { publicOnly: true })
+      expect(findManyFromUserSpy).toHaveBeenCalledWith(payload.userId, { publicOnly: true })
       expect(posts.length).toBe(1)
       expect(posts[0].closed).toBe(false)
     }

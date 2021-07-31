@@ -5,12 +5,12 @@ import { PostsRepository } from '@database/repositories'
 import { FieldError, ValidationError } from '@errors'
 
 export interface ListPostsPayload {
-  ownerId: string
+  userId: string
   authenticatedId?: string
 }
 
 const validator = Joi.object<ListPostsPayload>().keys({
-  ownerId: Joi.string().trim().uuid().required(),
+  userId: Joi.string().trim().uuid().required(),
   authenticatedId: Joi.string().trim().uuid().allow('', null)
 })
 
@@ -22,9 +22,9 @@ export class ListPosts {
   ) {}
 
   async execute(payload: ListPostsPayload) {
-    const { ownerId, authenticatedId } = await this.validate(payload)
-    return await this.postsRepository.findManyFromUser(ownerId, {
-      publicOnly: ownerId !== authenticatedId
+    const { userId, authenticatedId } = await this.validate(payload)
+    return await this.postsRepository.findManyFromUser(userId, {
+      publicOnly: userId !== authenticatedId
     })
   }
 
