@@ -1,3 +1,4 @@
+import aws from 'aws-sdk'
 import fs from 'fs'
 import Joi from 'joi'
 import path from 'path'
@@ -27,7 +28,7 @@ export class RemoveImage {
     const sanitizedPayload = this.validate(payload)
 
     if (this.storageType === 's3') {
-      throw new Error('Method not implemented.')
+      await this.removeS3Image(sanitizedPayload)
     } else if (this.storageType === 'local') {
       await this.removeLocalImage(sanitizedPayload)
     } else {
@@ -49,5 +50,15 @@ export class RemoveImage {
   private async removeLocalImage({ key }: RemoveImagePayload) {
     const filePath = path.resolve(__dirname, '..', '..', '..', 'tmp', key)
     await unlinkAsync(filePath)
+  }
+
+  private async removeS3Image({ key }: RemoveImagePayload) {
+    const s3 = new aws.S3()
+    await s3
+      .deleteObject({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: key
+      })
+      .promise()
   }
 }
