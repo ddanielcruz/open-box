@@ -11,6 +11,6 @@ export function single(user: User): UserView {
   }
 }
 
-export function many(users: User[]) {
+export function many(users: User[]): UserView[] {
   return users.map(single)
 }

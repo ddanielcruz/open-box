@@ -9,6 +9,7 @@ export const errorHandler = (
   response: Response,
   _next: NextFunction
 ) => {
+  // TODO: Remove received image on error
   if (error instanceof AppError) {
     return response.status(error.statusCode).send(error.serialize())
   }
